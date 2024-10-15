@@ -1,9 +1,9 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-export default function EditUser() {
+export default function AddUser() {
   let navigate = useNavigate();
 
 
@@ -17,25 +17,15 @@ export default function EditUser() {
   const { name, username, email } = user;
 
 
-  const {id}=useParams();
 
   const onInputChange = (e) => {//cette fonction est appellée chaque fois que l'utilisateur modifie un champ
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  useEffect(()=>{
-    loadUsers()
-},[]);
-
-const loadUsers=async()=>{
-    const result=await axios.get(`http://localhost:8080/user/${id}`);
-    setUser(result.data);
-}
-
   const onSubmit = async (e) => {//cette fonction est declenché quand le formulaire se valide et il s'envpie dans la bdd
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:8080/user/${id}`, user);
+      await axios.post("http://localhost:8080/user", user);
       navigate("/");
     } catch (error) {
       console.error("There was an error submitting the form!", error);
@@ -46,7 +36,7 @@ const loadUsers=async()=>{
       <div className='container flex items-center justify-center min-h-screen'> {/* Centrage vertical et horizontal */}
         <div className='px-8 md:px-16 lg:px-64'> {/* Ajuster les paddings */}
           <div className='border rounded-xl border-gray-300 shadow my-12'>
-            <h2 className='text-center text-3xl font-bold pt-12'>Edit User</h2>
+            <h2 className='text-center text-3xl font-bold pt-12'>Register Form</h2>
             <form onSubmit={onSubmit} className="lg:p-16 p-6">
               <div className="relative mb-6">
                 <label className="flex items-center mb-2 text-gray-600 text-sm font-medium">
